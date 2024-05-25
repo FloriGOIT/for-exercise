@@ -1,12 +1,21 @@
 import { StrictMode } from "react";
 import { createRoot } from "react-dom/client";
-import {WorkingWithPreviosState, ResetFormThroughKeyChange, Form, NestedForm, IncrementBasic, IncrementAsFunction, TextChange, UserProfile, UsingInitialState, TodoList, MyCheckbox } from "./components/App";
+import {Component1,Component1Second, ImageGallery,CustomHookToogle, CounterWithValueArrayDependency, TimerEmptyArrayDependency,TimerNoDependency, MountingAndUnmountingUseEffectOnConsoleLOG, ShortVideoRepetedPlayPause, WorkingWithPreviosState, ResetFormThroughKeyChange, Form, NestedForm, IncrementBasic, IncrementAsFunction, TextChange, UserProfile, UsingInitialState, TodoList, MyCheckbox } from "./components/App";
 
 const rootElement = document.getElementById("root");
 const root = createRoot(rootElement);
 
 root.render(
   <StrictMode>
+      <Component1/>  <br/><br/><br/><hr/> <hr/> 
+      <Component1Second/>  <br/><br/><br/><hr/> <hr/> 
+      <ImageGallery/>   <br/><br/><br/><hr/> <hr/> 
+      <CustomHookToogle />   <br/><br/><br/><hr/> <hr/> 
+      <CounterWithValueArrayDependency />   <br/><br/><br/><hr/> <hr/> 
+      <TimerEmptyArrayDependency/>   <br/><br/><br/><hr/> <hr/> 
+      <TimerNoDependency />   <br/><br/><br/><hr/> <hr/> 
+      <MountingAndUnmountingUseEffectOnConsoleLOG/>  <br/><br/><br/><hr/> <hr/> 
+      <ShortVideoRepetedPlayPause/>  <br/><br/><br/><hr/> <hr/> 
       <WorkingWithPreviosState/> <br/><br/><br/><hr/> <hr/> 
       <ResetFormThroughKeyChange/> <br/><br/><br/><hr/> <hr/> 
       <Form/> <br/><br/><br/><hr/> <hr/> 

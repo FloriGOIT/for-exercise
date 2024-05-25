@@ -27,6 +27,20 @@ const [fn, setFn] = useState(() => someFunction);
 
 function handleClick(){setFn(() => someOtherFunction);}
   
+<== useEffect ==>
+The useEffect hook in React is a powerful tool for handling side effects in functional components. Side effects include data fetching, subscriptions, manually changing the DOM, and more. 
+*without dependency = >effect will run on every render of all components
+*  [] dependency => the callback will run at the component's mounting stage
+* [value] => the callback will run in the  mounting and rerendering of specific component
 
-
-  
+useEffect(() => {
+  //Runs on every render
+});
+Component Did Mount:
+useEffect(() => {console.log('Component mounted')}, []); // Runs only on the first render
+Component Did Update:
+useEffect(() => {console.log('Component changed')}, [valus]); // Runs only on the first render and change
+Cleanup Function:
+useEffect(() => { console.log('Setting up');// Set up a subscription or event listener
+                  return () => {console.log('Cleaning up');}}, [someValue]); 
+Cleanup: Implement cleanup functions to prevent memory leaks, especially with subscriptions and event listeners
