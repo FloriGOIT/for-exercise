@@ -1,7 +1,8 @@
 export const App = () => {
   return (
     <div>
-      <p>Hello!</p>
+      <p>Hello Florentina! </p>
+      <UserMenu />
     </div>
   );
 };
