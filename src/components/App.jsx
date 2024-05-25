@@ -324,7 +324,7 @@ export function WorkingWithPreviosState() {
   const [count, setCount] = useState(0);
   return (
     <>
-      <p className={css.title}>ResetFormThroughKeyChange</p>
+      <p className={css.title}>Working With Previos State</p>
       <p className={css.title}>Simple</p>
       <button onClick={() => {setCountX(countX + 1); setTrendX("increase")} }>
         Increment
