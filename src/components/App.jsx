@@ -2,7 +2,7 @@ export const App = () => {
   return (
     <div>
       <p>Hello Florentina! </p>
-      <UserMenu />
+     { /*<UserMenu />*/}
     </div>
   );
 };
