@@ -1,6 +1,91 @@
-import { useState, useEffect, useRef,createContext, useContext } from "react";
+import { useState, useEffect, useRef, forwardRef,createContext, useContext } from "react";
 import css from "./App.module.css"
 
+
+
+//-------------Reference HooK-----------------
+//-------------Basic Reference HooK-----------------
+export const ReferenceHook = () => 
+  {
+    const [value, setValue] = useState(null);
+    const btnRef = useRef();
+    const valueRef = useRef(0);
+
+  console.log("general:", btnRef.current); //montare si randare
+  console.log("general:", valueRef.current); //montare si randare
+  useEffect(() => {console.log("useEffect: ", btnRef.current, valueRef.current)}); //montare si randare
+
+  const handleClick = () => {console.log("handleClick: ", btnRef.current);}; //nu genereaza useEffect sau console.log general
+
+  const handleClickSecond = () => {console.log("handleClickSecond: ", valueRef.current)};
+
+  return (
+    <>
+      <p className={css.title}> Basic Reference HooK </p>
+      <button onClick={() => setValue(value + 1)}>
+        Update {value} to trigger re-render 
+      </button>
+      <p><b>recunoaste la montare(1st undefine if no value) si randare</b></p>
+
+      <br/><br/>
+
+      <button ref={btnRef} onClick={handleClick}> 
+        Button with ref 
+      </button> 
+      <p><b>nu genereaza useEffect sau console.log general, nu se aplica optiunea de montare si rerender al aceste componente</b></p>
+
+      <br/><br/>
+
+
+      <button onClick={handleClickSecond}>Click to update ref value</button>
+    </>
+  );
+  }
+//-------------Video Reference HooK-----------------
+  export const PlayerApp = ({ source }) => {
+    const playerRef = useRef();
+    const play = () => playerRef.current.play();
+    const pause = () => playerRef.current.pause();
+  
+    return (
+      <div>
+        <p className={css.title}> Video Reference HooK</p>
+        <video ref={playerRef} src={source} style={{width:"320px", height:"240px"}} type="video/mp4" controls>
+          Sorry, your browser does not support embedded videos.
+        </video>
+        <div>
+          <p>added attribute   auto"controls"  to video</p>
+          <button onClick={play}>Play</button>
+          <button onClick={pause}>Pause</button>
+        </div>
+      </div>
+    );
+  };
+
+//-------------Video Reference HooK with forwardRef----------------- 
+  export  const VideoApp = () => {
+    const ref = useRef(null);
+    return (
+      <>
+        <p className={css.title}> Video Reference HooK with forwardRef </p>
+        <VideoPlayerApp ref={ref}
+          src="https://interactive-examples.mdn.mozilla.net/media/cc0-videos/flower.mp4"
+          type="video/mp4"  width="250" /> <br/>
+        <button onClick={() => ref.current.play()}>Play</button>
+        <button onClick={() => ref.current.pause()}>Pause</button>
+      </>
+    );
+  }
+  const VideoPlayerApp = forwardRef(function VideoPlayerApp({ src, type, width }, ref) {
+    return (
+      <video width={width} ref={ref}>
+        <source
+          src={src}
+          type={type}
+        />
+      </video>
+    );
+  });
 
 // ---------- IncrementBasic --------------------
 export const IncrementBasic = () => 
@@ -434,7 +519,7 @@ export function TimerNoDependency()
   useEffect(() => {let timer = setTimeout(increment, 60000); console.log("mounted")
                    return () => {clearTimeout(timer); console.log("cleared")}});
   return (<>
-           <p className={css.title}>UseEffectStages: Timer No Dependency</p>
+           <p className={css.title}>UseEffectStages: Timer NO array Dependency</p>
            <h1>I have rendered {count} times, at one minute interval</h1>
           </>)       
 }
@@ -448,7 +533,7 @@ export function TimerEmptyArrayDependency()
                    return () => {clearTimeout(timer); console.log("cleared once")}
     }, []); // <- add empty brackets here
   return (<>
-           <p className={css.title}>UseEffectStages: Timer Empty Dependency</p>
+           <p className={css.title}>UseEffectStages: Timer Empty array Dependency</p>
            <h1>I have rendered {count} times  in 5 seconds.</h1>
           </>)       
 }
@@ -636,3 +721,71 @@ function Component3Second () {
     </>
   );
 }
+
+
+//-------------  Logging useContext----------------------
+//1 provider -> sohn -> Enkel
+export const Logging = () => {return <div><p className={css.title}>Logging useContext</p> <Menu /> </div>}
+
+//------------- 2 UserMenu ----------------------
+const Menu = () => 
+  {
+    const {isLogged,handleIN,handleOUT} = UseSetContext();
+    return(<>
+         {isLogged ? <Details/> : (<p>Please LOG IN! </p>) }
+         {isLogged ? (<button onClick = {handleOUT}>Logged OUT</button>) :(<button onClick = {handleIN}>Logged IN</button>) }
+           </>)
+  }
+
+const Details = () => 
+  {
+    const {userName} = UseSetContext();
+                       return <p>Hello {userName}. How are you today?</p> 
+  }  
+//------------- 3 Context ----------------------
+
+const SetContext = createContext();
+const UseSetContext = () => useContext(SetContext);
+
+export const ContextProvider = ({children}) => 
+  {const [userName, setuserName] = useState("Please LOG IN!");
+   const [isLogged, setisLogged] = useState(false);
+   const handleIN = () => {setuserName("Florentina Vachente"); setisLogged(true)};
+   const handleOUT = () => {setuserName("Please LOG IN! "); setisLogged(false)}; 
+
+    return(<SetContext.Provider value = {{userName, isLogged,handleIN, handleOUT}}>
+              {children}
+           </SetContext.Provider>)
+  }
+
+//-------------  Toggle Modal----------------------
+
+export const useTogglefunc = () => 
+{ 
+  const [visible, isVisible] = useState(false)
+   const handleModalVisibility = () => {isVisible(visible => !visible)};
+   return {visible, handleModalVisibility}
+}
+
+export const Toggle  = () => 
+  { const {visible, handleModalVisibility} = useTogglefunc();
+    return( <div>
+              <p className={css.title}>useToggle for Modal - custome hook</p>
+              {visible && < Modal handleClose={handleModalVisibility} visibility={visible}/>}
+              {!visible && <button onClick={handleModalVisibility}>Open the Modal</button>}
+            </div>)
+  }
+
+const Modal = ({visibility, handleClose}) => 
+  { 
+    return(<div className={css.modaloverlay}>
+              <div className={css.modalcontent} >
+                <h2>This is the Modal</h2>
+                <p>Hello Flori! The modal is visible</p>
+                <h3>{`${visibility}`}</h3>
+                <button onClick={handleClose}>Close Modal</button>
+              </div>
+           </div>)
+  }
+
+  
