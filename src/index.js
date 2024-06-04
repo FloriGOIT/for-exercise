@@ -9,7 +9,6 @@ const root = createRoot(rootElement);
 root.render(
 <StrictMode>
     <>
-
       <Component1/>  <br/><br/><br/><hr/> <hr/> 
       <Component1Second/>  <br/><br/><br/><hr/> <hr/> 
       <ImageGallery/>   <br/><br/><br/><hr/> <hr/> 
@@ -34,6 +33,7 @@ root.render(
       <ContextProvider>
           <Logging />
       </ContextProvider> <br/><br/><br/><hr/> <hr/> 
+      
       <Toggle /> <br/><br/><br/><hr/> <hr/> 
       <ReferenceHook /> <br/><br/><br/><hr/> <hr/>
       <PlayerApp/> <br/><br/><br/><hr/> <hr/>
